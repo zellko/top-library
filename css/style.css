@@ -1,0 +1,125 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: Ubuntu;
+    src: url("../font/Ubuntu/Ubuntu-Regular.ttf");
+}
+
+:root {
+    font-family: Ubuntu, sans-serif;
+    display: grid;
+    grid-template-columns: 1fr;
+    --text-color-dark: black;
+    --text-color-light: white;
+    --button-color: #91c1b1;
+    --button-hover: #000000;
+    --bg-color-footer: #345047;
+}
+
+body {
+    justify-self: center;
+    display: grid;
+    grid-template-rows: min-content min-content 1fr min-content;
+    grid-template-columns: minmax(100%, 800px);
+    min-height: 100vh;
+    height: 100%;
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+body>div {
+    border: 1px solid black;
+    padding: 16px 16px;
+}
+
+
+/*************
+HEADER
+/*************/
+
+.header {
+    display: flex;
+    align-items: center;
+}
+
+.header img {
+    width: 84px;
+}
+
+
+/*************
+MENU
+/*************/
+
+.menu {
+    display: flex;
+    align-items: center;
+}
+
+.menu button,
+select {
+    height: 36px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin: 0 8px;
+}
+
+.menu button {
+    background-color: var(--button-color);
+    border-radius: 8px;
+    border: 0;
+    width: 108px;
+    font-weight: 700;
+}
+
+.menu button:hover {
+    color: var(--text-color-light);
+    background-color: var(--button-hover);
+    box-shadow: 5px 5px 5px var(--button-color);
+}
+
+.menu p {
+    margin-left: auto;
+    font-size: .8rem;
+}
+
+.menu select {
+    background: 0;
+    border: 1px solid black;
+    border-radius: 4px;
+    width: min-content;
+}
+
+
+/*************
+BOOK CONTAINER
+/*************/
+
+.book-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 8px;
+}
+
+.book-card {
+    height: 200px;
+    background-color: var(--button-color);
+    opacity: 0.4;
+}
+
+
+/*************
+FOOTER
+/*************/
+
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
