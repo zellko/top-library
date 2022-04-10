@@ -7,10 +7,10 @@ The Odin Project -  JavaScript - Project: Library
 HTML/CSS:
 - [x] Overall layout
 - [x] Header
-- [ ] Menu
-- [ ] Book-card-container
-- [ ] Book-Card
-- [ ] Footer
+- [x] Menu
+- [x] Book-card-container
+- [x] Book-Card
+- [x] Footer
 - [ ] Add book Form
 - [ ] Finalisation (font, margin, padding, ...)
 
