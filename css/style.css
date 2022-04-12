@@ -122,6 +122,7 @@ BOOK CONTAINER
 }
 
 .book-card {
+    position: relative;
     height: 200px;
     background-color: var(--bg-color-card);
     border-radius: 8px;
@@ -137,10 +138,14 @@ BOOK CONTAINER
 
 .book-card-img img {
     height: 200px;
+    width: 100%;
+    object-fit: cover;
     border-radius: 8px 0 0 8px;
 }
 
 .book-card-text {
+    grid-row: 1;
+    grid-column: 2;
     padding: 16px 0 0 16px;
     display: flex;
     flex-direction: column;
@@ -159,6 +164,19 @@ BOOK CONTAINER
     padding: 0 16px;
     align-self: center;
     opacity: 0.6;
+}
+
+.book-card .btn-removeBook {
+    border: 0;
+    width: 24px;
+    height: 24px;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("../img/close.png");
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    cursor: pointer;
+    opacity: 0.5;
 }
 
 
@@ -180,4 +198,15 @@ FOOTER
     display: flex;
     align-items: center;
     color: var(--text-color-light);
+}
+
+
+/*************
+JS CLASS
+/*************/
+
+.isRead {
+    /* border-right: 8px solid green;
+    border-bottom: 8px solid green; */
+    background-color: lightgreen;
 }

@@ -21,7 +21,7 @@
         </div>
 
         <div class="menu">
-            <button>Add Book</button>
+            <button class="btn-addBook">Add Book</button>
             <p>Sort By:</p>
             <select name="sortBy" id="sortBy">
             <option value="addDate">Added Date</option>
@@ -40,7 +40,7 @@
                 <div class="book-card-text">
                     <h2>Hyperion</h2>
                     <h3>By: Dan Simmons</h3>
-                    <p>Published: XXXX-XX-XX</p>
+                    <p>Published: 1989</p>
                     <div class="book-card-checkbox">
                         <label for="check1"> Read: </label>
                         <input type="checkbox" class="card-checkbox" id="check1" name="check1" value="1">
@@ -49,16 +49,22 @@
                 <div class="book-card-add-date">
                     <p>Added: 2022-04-10</p>
                 </div>
+
+                <button class="btn-removeBook"> 
+                    <!-- <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+                </svg> -->
+                </button>
             </div>
 
             <div class="book-card">
                 <div class="book-card-img">
-                    <img src="./img/hyperion.jpeg" alt="Book sample image">
+                    <img src="https://m.media-amazon.com/images/I/51tqDyv9QcL.jpg" alt="Book sample image">
                 </div>
                 <div class="book-card-text">
-                    <h2>Hyperion</h2>
+                    <h2>The Fall of Hyperion</h2>
                     <h3>By: Dan Simmons</h3>
-                    <p>Published: XXXX-XX-XX</p>
+                    <p>Published: 1990</p>
                     <div class="book-card-checkbox">
                         <label for="check1"> Read: </label>
                         <input type="checkbox" class="card-checkbox" id="check1" name="check1" value="1">
@@ -67,6 +73,13 @@
                 <div class="book-card-add-date">
                     <p>Added: 2022-04-10</p>
                 </div>
+
+
+                <button class="btn-delete-card"> 
+                    <!-- <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+                </svg> -->
+                </button>
             </div>
 
         </div>
@@ -81,15 +94,6 @@
         </svg>
         </a>
 
-    </div>
-
-
-    <!-- TESTING GROUND -->
-    <div class="testing-ground">
-        <div class="book-container-test">Testing Ground:</div>
-        <button class="test-add">Add Book</button>
-        <button class="test-remove">Remove Last Book</button>
-        <button class="test-remove-all">Remove All Book</button>
     </div>
 
 </body>
