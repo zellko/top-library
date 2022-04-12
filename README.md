@@ -16,8 +16,8 @@ HTML/CSS:
 
 ### JS
 Testing ground:
-- [ ] Add book to DOM
-- [ ] Clear a book from DOM
+- [x] Add book to DOM
+- [x] Clear a book from DOM
 - [ ] Clear all book from DOM
 - [ ] Loop trough myLibrary array and add all book to DOM 
 
@@ -28,13 +28,13 @@ Testing ground:
 - [ ] Add new book to DOM with correct class / id / value
 
 2. Clear book from DOM / myLibrary array:
-- [ ] x
-- [ ] x
+- [x] Add a removeCard function as prototype of the book object.
+- [x] When the function is triggered, remove "Book Card" from the DOM and remove the object from the array.
 - [ ] x
 
 3. Read/NotRead checkbox:
-- [ ] x
-- [ ] x
+- [x] When "Read" is checked, add a custom class to the card which change the color.
+- [ ] Style the class to make it prettier
 - [ ] x
 
 4. Optional: Sorting book:
