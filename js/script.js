@@ -1,15 +1,17 @@
 let myLibrary = [];
+let bookId = 0;
 const bookContainer = document.querySelector(".book-container");
 const btnAddBook = document.querySelector(".btn-addBook");
 
-function Book(title, author, publishDate, imgURL) {
+function Book(title, author, publishDate, imgURL, isRead, date, time) {
     // Book constructor, will contain all books datas...
     this.title = title;
     this.author = author;
     this.publishDate = publishDate;
     this.imgURL = imgURL;
-    this.read = true;
-    this.addDate = "xxxx";
+    this.read = isRead;
+    this.addedDate = date;
+    this.addedTime = time;
 };
 
 function BookToDom() {
@@ -20,7 +22,7 @@ function BookToDom() {
     // - Populate book card to the DOM
 };
 
-BookToDom.prototype.createCard = function(bookId) {
+BookToDom.prototype.createCard = function() {
     // Create Book card
     const divCard = document.createElement('div');
     divCard.classList.add('book-card');
@@ -75,7 +77,7 @@ BookToDom.prototype.populateCard = function(e) {
     this.bookPublished.textContent = this.publishDate;
     this.bookImg.src = this.imgURL;
     this.bookImg.alt = "Book cover image";
-    this.bookAddDate.textContent = "Added: yyyy-mm-dd";
+    this.bookAddDate.textContent = `${this.addedDate} / ${this.addedTime}`;
 
     if (this.read) {
         this.readCheckbox.checked = true;
@@ -84,86 +86,123 @@ BookToDom.prototype.populateCard = function(e) {
 
 };
 
-BookToDom.prototype.removeCard = function() {
+BookToDom.prototype.removeCard = function(cardToRemove) {
     // Remove book from DOM
-    bookContainer.removeChild(this.deleteBtn.offsetParent);
+    bookContainer.removeChild(cardToRemove);
 };
 
 
 Book.prototype = Object.create(BookToDom.prototype)
 
 
-function addBookToLibrary() {
+function addBookToLibrary(newBook) {
     // do stuff here
-    const newBook = new Book("Endymion", "Dan Simmons", "1996", "https://upload.wikimedia.org/wikipedia/en/thumb/f/fd/Endymion_cover.jpg/200px-Endymion_cover.jpg")
-    myLibrary.push(newBook);
+    const todayDate = new Date();
+    const date = `${todayDate.getFullYear()}-${todayDate.getMonth() + 1}-${todayDate.getDate()}`
+    const time = `${todayDate.getHours()}h${todayDate.getMinutes()}`
 
-    newBook.createCard(myLibrary.length - 1);
+    newBook.addedDate = date;
+    newBook.addedTime = time;
+
+    newBook.createCard();
     newBook.populateCard();
-
-    deleteButton();
+    ++bookId;
+    //console.log(myLibrary);
 };
 
+function addAllBookToDom() {
+    myLibrary.forEach(book => {
+        if (book !== null) addBookToLibrary(book);
+    });
+}
 
 
-function deleteButton() {
-    const cardCheckbox = document.querySelectorAll(".card-checkbox");
-    const btnRemoveBook = document.querySelectorAll(".btn-removeBook");
-
-    btnRemoveBook.forEach(button => button.addEventListener("click", function(e) {
-        const idBookToRemove = this.getAttribute('book-id');
-
-        if (myLibrary[idBookToRemove] !== null) {
-            myLibrary[idBookToRemove].removeCard();
-            myLibrary[idBookToRemove] = null;
-        };
-
-        console.log(myLibrary);
-    }));
-
-    // Capture if a card is checked as read
-    cardCheckbox.forEach(card => card.addEventListener("change", function(e) {
-        // console.log(e.target.checked)
-        console.log(e.path[3])
-        console.log(this)
-        if (card.checked) e.path[3].classList.add("isRead");
-        if (!card.checked) e.path[3].classList.remove("isRead");
-    }))
+const demo1 = new Book("Hyperion", "Dan Simmons", "1989", "https://images-na.ssl-images-amazon.com/images/I/91cI7fKu0vL.jpg", true)
+const demo2 = new Book("The Fall of Hyperion", "Dan Simmons", "1990", "https://m.media-amazon.com/images/I/51tqDyv9QcL.jpg", false)
+const demo3 = new Book("Endymion", "Dan Simmons", "1995", "https://images-na.ssl-images-amazon.com/images/I/91Bg2dr5LvL.jpg", false)
+myLibrary.push(demo1);
+myLibrary.push(demo2);
+addAllBookToDom();
 
 
-};
+btnAddBook.addEventListener("click", () => {
+    myLibrary.push(demo3);
+    addBookToLibrary(demo3);
+});
+
+bookContainer.addEventListener('click', (e) => {
+    if (e.type === "change") return;
+
+    if (e.target.className === "btn-removeBook") {
+        const idBookToRemove = e.target.getAttribute("book-id");
+        myLibrary[idBookToRemove].removeCard(e.target.parentElement);
+        myLibrary[idBookToRemove] = null;
+    };
+    //console.log(myLibrary);
+});
+
+bookContainer.addEventListener('change', (e) => {
+    if (e.target.checked) e.target.parentElement.offsetParent.classList.add("isRead");
+    if (!e.target.checked) e.target.parentElement.offsetParent.classList.remove("isRead");
+});
+
+/***********************************
+MODAL 
+/***********************************/
+// Get the modal
+const modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+const btn = document.querySelector(".test-modal");
+
+// Get the <span> element that closes the modal
+const span = document.querySelector(".btn-close-modal");
+
+// When the user clicks the button, open the modal 
+btn.onclick = function() {
+    modal.style.display = "flex";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
 
 
+/***********************************
+FORM 
+/***********************************/
+const btnForm = document.querySelector(".btn-form");
 
+btnForm.addEventListener('click', (e) => {
+    const form = document.querySelector('form');
+    //const formTitle = Object.fromEntries(new FormData(e.target).entries());
+    console.log(e.target.parentElement.elements);
 
-btnAddBook.addEventListener("click", addBookToLibrary);
-deleteButton();
+    const formData = e.target.parentElement.elements;
+    let formTitle = formData[0].value;
+    let formAuthor = formData[1].value;
+    let formPublished = formData[2].value;
+    let formIsRead = formData[3].checked;
+    console.log(formTitle + "+" + formAuthor + "+" + formPublished + "+" +
+        formIsRead);
 
+    //formData[0].value = "";
+
+});
 
 /***********************************
 TESTING GROUND
 To be deleted / refactored
 /***********************************/
 
-
-function addAllBookToDomTest() {
-
-    myLibrary.forEach(book => {
-        const newBook = document.createElement('div');
-        newBook.textContent = `Title: ${book.title}`;
-        bookContainerTest.appendChild(newBook);
-    });
-
-    // Add book to DOM
-}
-
-
-// // Pre-created Book
-// let test = 0;
-// let hyperion = new Book("Hyperion", "Dan Simmons");
-// let hyperionFall = new Book("The Fall of Hyperion", "Dan Simmons");
-// myLibrary.push(hyperion);
-// myLibrary.push(hyperionFall);
 
 // Select
 const sortBy = document.querySelector("#sortBy");
