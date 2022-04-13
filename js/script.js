@@ -26,6 +26,7 @@ BookToDom.prototype.createCard = function() {
     // Create Book card
     const divCard = document.createElement('div');
     divCard.classList.add('book-card');
+    divCard.setAttribute("book-id", bookId)
     bookContainer.appendChild(divCard);
     // Create Img section
     const divImg = document.createElement('div');
@@ -125,10 +126,6 @@ myLibrary.push(demo2);
 addAllBookToDom();
 
 
-btnAddBook.addEventListener("click", () => {
-    myLibrary.push(demo3);
-    addBookToLibrary(demo3);
-});
 
 bookContainer.addEventListener('click', (e) => {
     if (e.type === "change") return;
@@ -142,8 +139,18 @@ bookContainer.addEventListener('click', (e) => {
 });
 
 bookContainer.addEventListener('change', (e) => {
-    if (e.target.checked) e.target.parentElement.offsetParent.classList.add("isRead");
-    if (!e.target.checked) e.target.parentElement.offsetParent.classList.remove("isRead");
+
+    const idBook = e.target.offsetParent.getAttribute("book-id")
+
+    if (e.target.checked) {
+        e.target.parentElement.offsetParent.classList.add("isRead");
+        myLibrary[idBook].read = true;
+    };
+
+    if (!e.target.checked) {
+        e.target.parentElement.offsetParent.classList.remove("isRead");
+        myLibrary[idBook].read = false;
+    };
 });
 
 /***********************************
@@ -152,28 +159,25 @@ MODAL
 // Get the modal
 const modal = document.getElementById("myModal");
 
-// Get the button that opens the modal
-const btn = document.querySelector(".test-modal");
-
-// Get the <span> element that closes the modal
-const span = document.querySelector(".btn-close-modal");
+// Get the X button that closes the modal
+const btnCloseForm = document.querySelector(".btn-close-modal");
 
 // When the user clicks the button, open the modal 
-btn.onclick = function() {
+btnAddBook.addEventListener("click", () => {
     modal.style.display = "flex";
-}
+});
 
 // When the user clicks on <span> (x), close the modal
-span.onclick = function() {
+btnCloseForm.addEventListener("click", () => {
     modal.style.display = "none";
-}
+});
 
 // When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
+// window.addEventListener("click", (event) => {
+//     if (event.target == modal) {
+//         modal.style.display = "none";
+//     }
+// });
 
 
 /***********************************
@@ -183,18 +187,32 @@ const btnForm = document.querySelector(".btn-form");
 
 btnForm.addEventListener('click', (e) => {
     const form = document.querySelector('form');
-    //const formTitle = Object.fromEntries(new FormData(e.target).entries());
-    console.log(e.target.parentElement.elements);
 
-    const formData = e.target.parentElement.elements;
+    const formData = form.elements;
+    console.log(formData);
     let formTitle = formData[0].value;
     let formAuthor = formData[1].value;
     let formPublished = formData[2].value;
-    let formIsRead = formData[3].checked;
-    console.log(formTitle + "+" + formAuthor + "+" + formPublished + "+" +
-        formIsRead);
+    let formImgURL = formData[3].value;
+    let formIsRead = formData[4].checked;
 
-    //formData[0].value = "";
+    if (!formTitle) return; // Title is required to create a new book object
+    if (!formImgURL) formImgURL = "./img/reshot-icon-simple-book-HAZNB8F2TE.svg"; // Title is required to create a new book object
+
+    const todayDate = new Date();
+    const date = `${todayDate.getFullYear()}-${todayDate.getMonth() + 1}-${todayDate.getDate()}`
+    const time = `${todayDate.getHours()}h${todayDate.getMinutes()}`
+
+    const newBookObject = new Book(formTitle, formAuthor, formPublished, formImgURL, formIsRead, date, time);
+    myLibrary.push(newBookObject);
+    addBookToLibrary(newBookObject);
+
+    modal.style.display = "none";
+    formData[0].value = "";
+    formData[1].value = "";
+    formData[2].value = "";
+    formData[3].value = "";
+    formData[4].checked = false;
 
 });
 
@@ -203,14 +221,17 @@ TESTING GROUND
 To be deleted / refactored
 /***********************************/
 
+const btnTestAdd = document.querySelector(".test-add");
+
+function testSorting(e) {
+    console.log(this.value);
+};
+
+btnTestAdd.addEventListener("click", () => {
+    myLibrary.push(demo3);
+    addBookToLibrary(demo3);
+});
 
 // Select
 const sortBy = document.querySelector("#sortBy");
-sortBy.addEventListener("change", function(e) { console.log(this.value) }); // Capture if sorting list change 
-
-
-/* Check a checkbox using JS
-cardCheckbox.forEach(card => {
-    console.log(card.checked);
-    card.checked = true;
-})*/
+sortBy.addEventListener("change", testSorting); // Capture if sorting list change

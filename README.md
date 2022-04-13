@@ -11,21 +11,16 @@ HTML/CSS:
 - [x] Book-card-container
 - [x] Book-Card
 - [x] Footer
-- [ ] Add book Form
-- [ ] Finalisation (font, margin, padding, ...)
+- [x] Add book Form
+- [ ] Finalisation (styling, font, margin, padding, ...)
 
 ### JS
-Testing ground:
-- [x] Add book to DOM
-- [x] Clear a book from DOM
-- [ ] Clear all book from DOM
-- [x] Loop trough myLibrary array and add all book to DOM 
 
 #### Coding problems:
 1. Add book to DOM / myLibrary array:
 - [x] Open Form modals when "Add Book" button is clicked
-- [ ] Find a way to get values from the form. 
-- [ ] Create a new book object from those values and add to my library.
+- [x] Find a way to get values from the form. 
+- [x] Create a new book object from those values and add to my library.
 - [x] Add new book to DOM with correct class / id / value
 
 2. Clear book from DOM / myLibrary array:
@@ -63,7 +58,7 @@ Font:
 
 Code:
 - Modals: https://www.w3schools.com/howto/howto_css_modals.asp
-
+- Get values from form: https://www.javascripttutorial.net/javascript-dom/javascript-form/
 Inspiration:
 - https://zakarya-mks.github.io/my-library/
 - https://www.joachimzeelmaekers.be/the-10-apps-i-use-to-boost-my-productivity/
