@@ -19,25 +19,29 @@ Testing ground:
 - [x] Add book to DOM
 - [x] Clear a book from DOM
 - [ ] Clear all book from DOM
-- [ ] Loop trough myLibrary array and add all book to DOM 
+- [x] Loop trough myLibrary array and add all book to DOM 
 
 #### Coding problems:
 1. Add book to DOM / myLibrary array:
-- [ ] Open Form modals when "Add Book" button is clicked
-- [ ] Get value from form, create a new book object from those values and add to my library.
-- [ ] Add new book to DOM with correct class / id / value
+- [x] Open Form modals when "Add Book" button is clicked
+- [ ] Find a way to get values from the form. 
+- [ ] Create a new book object from those values and add to my library.
+- [x] Add new book to DOM with correct class / id / value
 
 2. Clear book from DOM / myLibrary array:
 - [x] Add a removeCard function as prototype of the book object.
 - [x] When the function is triggered, remove "Book Card" from the DOM and remove the object from the array.
-- [ ] x
+
 
 3. Read/NotRead checkbox:
 - [x] When "Read" is checked, add a custom class to the card which change the color.
 - [ ] Style the class to make it prettier
-- [ ] x
 
-4. Optional: Sorting book:
+
+4. Code cleaning:
+- [ ] Add comments / refactor
+
+5. Optional: Sorting book:
 - [ ] x
 - [ ] x
 - [ ] x
@@ -58,7 +62,7 @@ Font:
 - x
 
 Code:
-- x
+- Modals: https://www.w3schools.com/howto/howto_css_modals.asp
 
 Inspiration:
 - https://zakarya-mks.github.io/my-library/
