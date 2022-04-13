@@ -74,8 +74,20 @@ MENU
     padding: 16px 16px;
 }
 
+.menu p {
+    margin-left: auto;
+    font-size: .8rem;
+}
+
+.menu select {
+    background: 0;
+    border: 1px solid black;
+    border-radius: 4px;
+    width: min-content;
+}
+
 .menu button,
-select {
+.menu select {
     height: 36px;
     font-size: 1rem;
     cursor: pointer;
@@ -94,18 +106,6 @@ select {
 .menu button:hover {
     background-color: var(--button-hover);
     box-shadow: 5px 5px 2px var(--button-color);
-}
-
-.menu p {
-    margin-left: auto;
-    font-size: .8rem;
-}
-
-.menu select {
-    background: 0;
-    border: 1px solid black;
-    border-radius: 4px;
-    width: min-content;
 }
 
 
@@ -139,7 +139,7 @@ BOOK CONTAINER
 .book-card-img img {
     height: 200px;
     width: 100%;
-    object-fit: cover;
+    object-fit: fill;
     border-radius: 8px 0 0 8px;
 }
 
@@ -217,6 +217,8 @@ JS CLASS
     /* border-right: 8px solid green;
     border-bottom: 8px solid green; */
     background-color: lightgreen;
+    background: rgb(219, 226, 239);
+    background: linear-gradient(140deg, rgba(219, 226, 239, 1) 0%, rgba(219, 226, 239, 1) 10%, rgba(129, 255, 127, 1) 100%);
 }
 
 
@@ -227,21 +229,14 @@ MODAL - Form
 .modal {
     display: none;
     justify-content: center;
-    /* Hidden by default */
     position: fixed;
-    /* Stay in place */
     z-index: 1;
-    /* Sit on top */
     padding-top: 100px;
-    /* Location of the box */
     left: 0;
     top: 0;
     width: 100%;
-    /* Full width */
     height: 100%;
-    /* Full height */
     overflow: auto;
-    /* Enable scroll if needed */
     background-color: rgb(0, 0, 0);
     /* Fallback color */
     background-color: rgba(0, 0, 0, 0.4);
@@ -253,8 +248,7 @@ MODAL - Form
 
 .modal-content {
     position: relative;
-    background-color: var(--text-color-light);
-    margin: 0 0;
+    background-color: white;
     padding: 20px;
     box-shadow: 0px 0px 8px 8px var(--button-color);
     border-radius: 8px;
@@ -270,18 +264,54 @@ form {
     margin-top: 20px;
 }
 
+form>span {
+    color: red;
+}
+
+input:not(:placeholder-shown):valid+span {
+    display: none;
+}
+
+input:not(:placeholder-shown):not(:valid) {
+    border: 3px solid red;
+}
+
+
+/* .modal-content form input:not(valid) {
+    border: 3px solid red;
+} */
+
+form button {
+    align-self: center;
+    color: var(--text-color-light);
+    background-color: var(--button-color);
+    border-radius: 8px;
+    border: 0;
+    width: 108px;
+    font-weight: 700;
+    height: 36px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin: 0 8px;
+}
+
+form button:hover {
+    background-color: var(--button-hover);
+    box-shadow: 5px 5px 2px var(--button-color);
+}
+
 
 /* The Close Button */
 
 .btn-close-modal {
     position: absolute;
-    top: 4px;
-    right: 4px;
+    top: 8px;
+    right: 12px;
     border: 0;
     background: 0;
-    width: 24px;
-    font-size: 28px;
+    font-size: 24px;
     font-weight: bold;
+    color: var(--button-color);
     cursor: pointer;
     opacity: 0.5;
 }
