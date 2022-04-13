@@ -166,17 +166,25 @@ BOOK CONTAINER
     opacity: 0.6;
 }
 
-.book-card .btn-removeBook {
+.btn-removeBook {
     border: 0;
-    width: 24px;
-    height: 24px;
-    background-color: rgba(0, 0, 0, 0);
-    background-image: url("../img/close.png");
+    font-size: 24px;
+    /* background-color: rgba(0, 0, 0, 0);
+    background-image: url("../img/close.png"); */
+    background: 0;
     position: absolute;
     top: 4px;
     right: 4px;
-    cursor: pointer;
     opacity: 0.5;
+}
+
+.btn-removeBook:hover {
+    color: red;
+    cursor: pointer;
+}
+
+.btn-removeBook::before {
+    content: "\2715";
 }
 
 
@@ -209,4 +217,76 @@ JS CLASS
     /* border-right: 8px solid green;
     border-bottom: 8px solid green; */
     background-color: lightgreen;
+}
+
+
+/*************
+MODAL - Form
+/*************/
+
+.modal {
+    display: none;
+    justify-content: center;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 100px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+}
+
+
+/* Modal Content */
+
+.modal-content {
+    position: relative;
+    background-color: var(--text-color-light);
+    margin: 0 0;
+    padding: 20px;
+    box-shadow: 0px 0px 8px 8px var(--button-color);
+    border-radius: 8px;
+    height: min-content;
+    width: 100%;
+    max-width: 400px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+
+/* The Close Button */
+
+.btn-close-modal {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    border: 0;
+    background: 0;
+    width: 24px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+.btn-close-modal:hover {
+    color: red;
+    cursor: pointer;
 }
