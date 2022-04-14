@@ -1,22 +1,29 @@
-let myLibrary = [];
-let bookId = 0;
+let myLibrary = []; // Array to store each book object
+let bookId = 0; // Variable to give each book an unique ID
+
 const bookContainer = document.querySelector(".book-container");
 const btnAddBook = document.querySelector(".btn-addBook");
 
-function Book(title, author, publishDate, imgURL, isRead, date, time) {
-    // Book constructor, will contain all books datas...
+const modal = document.getElementById("myModal"); // Modal which contain the form to add a book
+const btnCloseForm = document.querySelector(".btn-close-modal"); // Button to close the "Add book" form
+const btnForm = document.querySelector(".btn-form"); // Button to submit "Add Book" form
+
+const sortBy = document.querySelector("#sortBy"); // "sort By" selector, allow to sort book by Added date, author or title
+
+function Book(title, author, publishDate, imgURL, isRead) {
+    // Book constructor, contain all books datas...
     this.title = title;
     this.author = author;
     this.publishDate = publishDate;
     this.imgURL = imgURL;
     this.read = isRead;
-    this.addedDate = date;
-    this.addedTime = time;
+    this.addedDate = "yyyy-mm-dd";
+    this.domId = 0;
 };
 
 function BookToDom() {
     // ...Prototype of Book constructor
-    // Will contain all functions to:
+    // Contain all functions to:
     // - Add book card to the DOM
     // - Remove book card to the DOM
     // - Populate book card to the DOM
@@ -78,7 +85,7 @@ BookToDom.prototype.populateCard = function(e) {
     this.bookPublished.textContent = this.publishDate;
     this.bookImg.src = this.imgURL;
     this.bookImg.alt = "Book cover image";
-    this.bookAddDate.textContent = `${this.addedDate} / ${this.addedTime}`;
+    this.bookAddDate.textContent = this.addedDate;
 
     if (this.read) {
         this.readCheckbox.checked = true;
@@ -93,39 +100,70 @@ BookToDom.prototype.removeCard = function(cardToRemove) {
 };
 
 
-Book.prototype = Object.create(BookToDom.prototype)
+Book.prototype = Object.create(BookToDom.prototype) // Add the functions createCard, populateCard and removeCard has prototype to Book object
 
 
 function addBookToLibrary(newBook) {
-    // do stuff here
+    // Function to add the book to the DOM
+
+    // Get today date and add it to the book object properties.
     const todayDate = new Date();
     const date = `${todayDate.getFullYear()}-${todayDate.getMonth() + 1}-${todayDate.getDate()}`
-    const time = `${todayDate.getHours()}h${todayDate.getMinutes()}`
 
     newBook.addedDate = date;
-    newBook.addedTime = time;
+    newBook.domId = bookId;
 
-    newBook.createCard();
-    newBook.populateCard();
-    ++bookId;
-    //console.log(myLibrary);
+    newBook.createCard(); // Create the book card in the DOM
+    newBook.populateCard(); // Populate the book card
+
+    ++bookId; // Each time a book is created, we increment this variable, to give each book an unique ID.
 };
 
-function addAllBookToDom() {
-    myLibrary.forEach(book => {
-        if (book !== null) addBookToLibrary(book);
-    });
-}
+/***********************************
+Book sorting function
+/***********************************/
+function sortBook(e) {
+    // This function sort the book in the DOM
+    // Book can by sorted my Added date, Author or Title
+
+    let domOrderCount = 0;
+    const sortByValue = document.querySelector("#sortBy");
+    const sortedLibrary = [...myLibrary]; //Create a copy of the myLibrary array, this copy will be sorted
+
+    if (sortByValue.value === "title") {
+        sortedLibrary.sort((a, b) => {
+            if (a === null) return 1;
+            if (b === null) return -1;
+            if (a.title.toLowerCase() > b.title.toLowerCase()) return 1;
+            if (b.title.toLowerCase() > a.title.toLowerCase()) return -1;
+        })
+    };
+
+    if (sortByValue.value === "author") {
+        sortedLibrary.sort((a, b) => {
+            if (a === null) return 1;
+            if (b === null) return -1;
+            if (a.author.toLowerCase() > b.author.toLowerCase()) return 1;
+            if (b.author.toLowerCase() > a.author.toLowerCase()) return -1;
+        })
+    };
+
+    for (const book of sortedLibrary) {
+        if (book === null) continue; // If it's "null", it means it's a book that has been deleted. So we skip it.
+
+        const bookCard = document.querySelector(`[book-id="${book.domId}"]`); // Get the DOM Card element...
+        bookCard.setAttribute('style', `order: ${domOrderCount};`); //...and give it a new "order" attribute
+        ++domOrderCount;
+    };
+};
 
 
-const demo1 = new Book("Hyperion", "Dan Simmons", "1989", "https://images-na.ssl-images-amazon.com/images/I/91cI7fKu0vL.jpg", true)
-const demo2 = new Book("The Fall of Hyperion", "Dan Simmons", "1990", "https://m.media-amazon.com/images/I/51tqDyv9QcL.jpg", false)
-const demo3 = new Book("Endymion", "Dan Simmons", "1995", "https://images-na.ssl-images-amazon.com/images/I/91Bg2dr5LvL.jpg", false)
-myLibrary.push(demo1);
-myLibrary.push(demo2);
-addAllBookToDom();
-
-
+/***********************************
+Buttons event listener:
+- Check if user click on remove book "x" button
+- Check if user check "read" checkbox 
+- Check if the sortBy selector change
+/***********************************/
 
 bookContainer.addEventListener('click', (e) => {
     if (e.type === "change") return;
@@ -135,11 +173,9 @@ bookContainer.addEventListener('click', (e) => {
         myLibrary[idBookToRemove].removeCard(e.target.parentElement);
         myLibrary[idBookToRemove] = null;
     };
-    //console.log(myLibrary);
 });
 
 bookContainer.addEventListener('change', (e) => {
-
     const idBook = e.target.offsetParent.getAttribute("book-id")
 
     if (e.target.checked) {
@@ -153,21 +189,18 @@ bookContainer.addEventListener('change', (e) => {
     };
 });
 
+sortBy.addEventListener("change", sortBook);
+
 /***********************************
 MODAL 
 /***********************************/
-// Get the modal
-const modal = document.getElementById("myModal");
-
-// Get the X button that closes the modal
-const btnCloseForm = document.querySelector(".btn-close-modal");
 
 // When the user clicks the button, open the modal 
 btnAddBook.addEventListener("click", () => {
     modal.style.display = "flex";
 });
 
-// When the user clicks on <span> (x), close the modal
+// When the user clicks on "X" close the modal
 btnCloseForm.addEventListener("click", () => {
     modal.style.display = "none";
 });
@@ -181,57 +214,53 @@ btnCloseForm.addEventListener("click", () => {
 
 
 /***********************************
-FORM 
+FORM:
+- Recovery of form datas
+- Create a new book object from datas
 /***********************************/
-const btnForm = document.querySelector(".btn-form");
 
 btnForm.addEventListener('click', (e) => {
-    const form = document.querySelector('form');
+    const form = document.querySelector('form'); // Get the form...
 
+    // ...get the datas from the form
     const formData = form.elements;
-    console.log(formData);
     let formTitle = formData[0].value;
     let formAuthor = formData[1].value;
     let formPublished = formData[2].value;
     let formImgURL = formData[3].value;
     let formIsRead = formData[4].checked;
 
-    if (!formTitle) return; // Title is required to create a new book object
-    if (!formImgURL) formImgURL = "./img/reshot-icon-simple-book-HAZNB8F2TE.svg"; // Title is required to create a new book object
+    if (!formTitle) return; // Title is required to create a new book object, if not provided we do not validate the form.
+    if (!formImgURL) formImgURL = "./img/reshot-icon-simple-book-HAZNB8F2TE.svg"; // If no book image is provided, we use a default book image.
 
-    const todayDate = new Date();
-    const date = `${todayDate.getFullYear()}-${todayDate.getMonth() + 1}-${todayDate.getDate()}`
-    const time = `${todayDate.getHours()}h${todayDate.getMinutes()}`
+    const newBookObject = new Book(formTitle, formAuthor, formPublished, formImgURL, formIsRead); // Create a new book object from the form datas
+    myLibrary.push(newBookObject); // Add it to the array
+    addBookToLibrary(newBookObject); // Add it to the DOM
+    sortBook(); // Sort the book in the DOM
 
-    const newBookObject = new Book(formTitle, formAuthor, formPublished, formImgURL, formIsRead, date, time);
-    myLibrary.push(newBookObject);
-    addBookToLibrary(newBookObject);
-
+    // Clear the form
     modal.style.display = "none";
     formData[0].value = "";
     formData[1].value = "";
     formData[2].value = "";
     formData[3].value = "";
     formData[4].checked = false;
-
 });
 
-/***********************************
-TESTING GROUND
-To be deleted / refactored
-/***********************************/
+/*************************
+DEMO
+- Add two book to the DOM, has demo
+ *************************/
+function addAllBookToDom() {
+    // Function to add all "demo" book to the DOM when the page is loaded
+    myLibrary.forEach(book => {
+        if (book !== null) addBookToLibrary(book);
+    });
+}
 
-const btnTestAdd = document.querySelector(".test-add");
-
-function testSorting(e) {
-    console.log(this.value);
-};
-
-btnTestAdd.addEventListener("click", () => {
-    myLibrary.push(demo3);
-    addBookToLibrary(demo3);
-});
-
-// Select
-const sortBy = document.querySelector("#sortBy");
-sortBy.addEventListener("change", testSorting); // Capture if sorting list change
+const demo1 = new Book("Hyperion", "Dan Simmons", "1989", "https://images-na.ssl-images-amazon.com/images/I/91cI7fKu0vL.jpg", true);
+const demo2 = new Book("The Fall of Hyperion", "Dan Simmons", "1990", "https://m.media-amazon.com/images/I/51tqDyv9QcL.jpg", false);
+// const demo3 = new Book("Endymion", "Dan Simmons", "1995", "https://images-na.ssl-images-amazon.com/images/I/91Bg2dr5LvL.jpg", false)
+myLibrary.push(demo1);
+myLibrary.push(demo2);
+addAllBookToDom();

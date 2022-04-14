@@ -10,8 +10,8 @@
     --button-color: #3F72AF;
     --button-hover: #112D4E;
     --bg-color-footer: #112D4E;
-    --bg-color-menu: rgba(219, 226, 239, 0.6);
-    --bg-color-card: rgba(219, 226, 239, 0.6);
+    --bg-color-menu: rgba(219, 226, 239, 0.8);
+    --bg-color-card: rgba(219, 226, 239, 0.8);
 }
 
 body {
@@ -23,6 +23,27 @@ body {
     font-family: Ubuntu, sans-serif;
 }
 
+h1 {
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin-top: 12px;
+}
+
+h3 {
+    font-size: 1.2rem;
+}
+
+p {
+    font-size: 1rem;
+}
+
+input {
+    accent-color: var(--button-color);
+}
+
 .grid-container {
     justify-self: center;
     display: grid;
@@ -30,20 +51,70 @@ body {
     grid-template-columns: minmax(100%, 800px);
 }
 
-h1 {
-    font-size: 2.5rem;
+
+/*************
+Button
+/*************/
+
+
+/* Add Book / Add (Form) */
+
+button {
+    color: var(--text-color-light);
+    background-color: var(--button-color);
+    height: 36px;
+    width: 108px;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 8px;
+    border: 0;
+    margin: 0 8px;
+    cursor: pointer;
 }
 
-h2 {}
-
-h3 {}
-
-input {
-    accent-color: var(--button-color);
+button:hover {
+    background-color: var(--button-hover);
+    box-shadow: 5px 5px 2px var(--button-color);
 }
 
-body>div {
-    /* border: 1px solid black; */
+form button {
+    align-self: center;
+}
+
+
+/* "X" Remove book / Close form */
+
+.btn-removeBook,
+.btn-close-modal {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    height: min-content;
+    width: min-content;
+    color: var(--text-color-dark);
+    font-size: 22px;
+    font-weight: bold;
+    margin: 0;
+    border: 0;
+    background: 0;
+    opacity: 0.5;
+}
+
+.btn-removeBook:hover,
+.btn-close-modal:hover {
+    color: red;
+    box-shadow: 0 0 0;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.btn-removeBook::before {
+    content: "\2715";
+}
+
+.btn-close-modal {
+    top: 8px;
+    right: 16px;
+    font-size: 36px;
 }
 
 
@@ -84,28 +155,10 @@ MENU
     border: 1px solid black;
     border-radius: 4px;
     width: min-content;
-}
-
-.menu button,
-.menu select {
     height: 36px;
     font-size: 1rem;
     cursor: pointer;
     margin: 0 8px;
-}
-
-.menu button {
-    color: var(--text-color-light);
-    background-color: var(--button-color);
-    border-radius: 8px;
-    border: 0;
-    width: 108px;
-    font-weight: 700;
-}
-
-.menu button:hover {
-    background-color: var(--button-hover);
-    box-shadow: 5px 5px 2px var(--button-color);
 }
 
 
@@ -149,7 +202,7 @@ BOOK CONTAINER
     padding: 16px 0 0 16px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 4px;
 }
 
 .book-card-checkbox {
@@ -160,31 +213,13 @@ BOOK CONTAINER
 }
 
 .book-card-add-date {
-    font-size: .8rem;
-    padding: 0 16px;
     align-self: center;
+    padding: 0 16px;
     opacity: 0.6;
 }
 
-.btn-removeBook {
-    border: 0;
-    font-size: 24px;
-    /* background-color: rgba(0, 0, 0, 0);
-    background-image: url("../img/close.png"); */
-    background: 0;
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    opacity: 0.5;
-}
-
-.btn-removeBook:hover {
-    color: red;
-    cursor: pointer;
-}
-
-.btn-removeBook::before {
-    content: "\2715";
+.book-card-add-date p {
+    font-size: .8rem;
 }
 
 
@@ -210,19 +245,6 @@ FOOTER
 
 
 /*************
-JS CLASS
-/*************/
-
-.isRead {
-    /* border-right: 8px solid green;
-    border-bottom: 8px solid green; */
-    background-color: lightgreen;
-    background: rgb(219, 226, 239);
-    background: linear-gradient(140deg, rgba(219, 226, 239, 1) 0%, rgba(219, 226, 239, 1) 10%, rgba(129, 255, 127, 1) 100%);
-}
-
-
-/*************
 MODAL - Form
 /*************/
 
@@ -242,9 +264,6 @@ MODAL - Form
     background-color: rgba(0, 0, 0, 0.4);
     /* Black w/ opacity */
 }
-
-
-/* Modal Content */
 
 .modal-content {
     position: relative;
@@ -268,55 +287,21 @@ form>span {
     color: red;
 }
 
+input:required:not(:placeholder-shown):valid {
+    border: 3px solid lightgreen;
+}
+
 input:not(:placeholder-shown):valid+span {
     display: none;
 }
 
-input:not(:placeholder-shown):not(:valid) {
-    border: 3px solid red;
-}
 
+/*************
+JS CLASS
+/*************/
 
-/* .modal-content form input:not(valid) {
-    border: 3px solid red;
-} */
-
-form button {
-    align-self: center;
-    color: var(--text-color-light);
-    background-color: var(--button-color);
-    border-radius: 8px;
-    border: 0;
-    width: 108px;
-    font-weight: 700;
-    height: 36px;
-    font-size: 1rem;
-    cursor: pointer;
-    margin: 0 8px;
-}
-
-form button:hover {
-    background-color: var(--button-hover);
-    box-shadow: 5px 5px 2px var(--button-color);
-}
-
-
-/* The Close Button */
-
-.btn-close-modal {
-    position: absolute;
-    top: 8px;
-    right: 12px;
-    border: 0;
-    background: 0;
-    font-size: 24px;
-    font-weight: bold;
-    color: var(--button-color);
-    cursor: pointer;
-    opacity: 0.5;
-}
-
-.btn-close-modal:hover {
-    color: red;
-    cursor: pointer;
+.isRead {
+    background-color: lightgreen;
+    background: rgb(219, 226, 239);
+    background: linear-gradient(140deg, rgba(219, 226, 239, 1) 0%, rgba(219, 226, 239, 1) 10%, rgba(129, 255, 127, 1) 100%);
 }

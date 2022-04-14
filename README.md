@@ -12,7 +12,7 @@ HTML/CSS:
 - [x] Book-Card
 - [x] Footer
 - [x] Add book Form
-- [ ] Finalisation (styling, font, margin, padding, ...)
+- [x] Finalisation (styling, font, margin, padding, ...)
 
 ### JS
 
@@ -30,16 +30,15 @@ HTML/CSS:
 
 3. Read/NotRead checkbox:
 - [x] When "Read" is checked, add a custom class to the card which change the color.
-- [ ] Style the class to make it prettier
+- [x] Style the class to make it prettier
 
 
 4. Code cleaning:
-- [ ] Add comments / refactor
+- [x] Add comments / refactor
 
 5. Optional: Sorting book:
-- [ ] x
-- [ ] x
-- [ ] x
+- [x] Create a new array, which is a copy of myLibrary, and sort it based on Author, Title or Added Date
+- [x] Use CSS "order" to order the book card in the DOM 
 
 ## Ressources:
 Images:
@@ -54,11 +53,13 @@ Icons:
 - https://materialdesignicons.com/
 
 Font:
-- x
+- https://fonts.google.com/specimen/Ubuntu
 
 Code:
+- Sorting array without mutation: https://bobbyhadz.com/blog/javascript-sort-array-without-mutating
 - Modals: https://www.w3schools.com/howto/howto_css_modals.asp
 - Get values from form: https://www.javascripttutorial.net/javascript-dom/javascript-form/
+
 Inspiration:
 - https://zakarya-mks.github.io/my-library/
 - https://www.joachimzeelmaekers.be/the-10-apps-i-use-to-boost-my-productivity/
