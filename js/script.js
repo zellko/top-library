@@ -10,97 +10,85 @@ const btnForm = document.querySelector(".btn-form"); // Button to submit "Add Bo
 
 const sortBy = document.querySelector("#sortBy"); // "sort By" selector, allow to sort book by Added date, author or title
 
-function Book(title, author, publishDate, imgURL, isRead) {
-    // Book constructor, contain all books datas...
-    this.title = title;
-    this.author = author;
-    this.publishDate = publishDate;
-    this.imgURL = imgURL;
-    this.read = isRead;
-    this.addedDate = "yyyy-mm-dd";
-    this.domId = 0;
-};
+class Book {
+    // class methods
+    constructor(title, author, publishDate, imgURL, isRead) {
+        this.title = title;
+        this.author = author;
+        this.publishDate = publishDate;
+        this.imgURL = imgURL;
+        this.read = isRead;
+        this.addedDate = "yyyy-mm-dd";
+        this.domId = 0;
+    }
+    createCard() {
+        // Create Book card
+        const divCard = document.createElement('div');
+        divCard.classList.add('book-card');
+        divCard.setAttribute("book-id", bookId)
+        bookContainer.appendChild(divCard);
+        // Create Img section
+        const divImg = document.createElement('div');
+        this.bookImg = document.createElement('img');
+        divImg.classList.add('book-card-img');
+        divCard.appendChild(divImg);
+        divImg.appendChild(this.bookImg);
+        // Create Text section
+        const divText = document.createElement('div');
+        this.bookTitle = document.createElement('h2');
+        this.bookAuthor = document.createElement('h3');
+        this.bookPublished = document.createElement('p');
+        divText.classList.add('book-card-text');
+        divCard.appendChild(divText);
+        divText.appendChild(this.bookTitle);
+        divText.appendChild(this.bookAuthor);
+        divText.appendChild(this.bookPublished);
+        // Create Add-date section
+        const divDate = document.createElement('div');
+        this.bookAddDate = document.createElement('p');
+        divDate.classList.add('book-card-add-date');
+        divCard.appendChild(divDate);
+        divDate.appendChild(this.bookAddDate);
+        // Create Read checkbox
+        const labelCheckbox = document.createElement('label');
+        labelCheckbox.htmlFor = "idTest";
+        labelCheckbox.textContent = "Read: ";
+        const divCheckbox = document.createElement('div');
+        divCheckbox.classList.add('book-card-checkbox');
+        this.readCheckbox = document.createElement('input');
+        this.readCheckbox.type = "checkbox";
+        this.readCheckbox.name = "name";
+        this.readCheckbox.value = "value";
+        this.readCheckbox.id = "idTest";
+        this.readCheckbox.classList.add('card-checkbox');
+        divText.appendChild(divCheckbox);
+        divCheckbox.appendChild(labelCheckbox);
+        divCheckbox.appendChild(this.readCheckbox);
+        // Create remove bouton section
+        this.deleteBtn = document.createElement('button');
+        this.deleteBtn.classList.add('btn-removeBook');
+        this.deleteBtn.setAttribute("book-id", bookId)
+        divCard.appendChild(this.deleteBtn);
+    }
 
-function BookToDom() {
-    // ...Prototype of Book constructor
-    // Contain all functions to:
-    // - Add book card to the DOM
-    // - Remove book card to the DOM
-    // - Populate book card to the DOM
-};
+    populateCard(e) {
+        this.bookTitle.textContent = this.title;
+        this.bookAuthor.textContent = `By: ${this.author}`;
+        this.bookPublished.textContent = this.publishDate;
+        this.bookImg.src = this.imgURL;
+        this.bookImg.alt = "Book cover image";
+        this.bookAddDate.textContent = this.addedDate;
 
-BookToDom.prototype.createCard = function() {
-    // Create Book card
-    const divCard = document.createElement('div');
-    divCard.classList.add('book-card');
-    divCard.setAttribute("book-id", bookId)
-    bookContainer.appendChild(divCard);
-    // Create Img section
-    const divImg = document.createElement('div');
-    this.bookImg = document.createElement('img');
-    divImg.classList.add('book-card-img');
-    divCard.appendChild(divImg);
-    divImg.appendChild(this.bookImg);
-    // Create Text section
-    const divText = document.createElement('div');
-    this.bookTitle = document.createElement('h2');
-    this.bookAuthor = document.createElement('h3');
-    this.bookPublished = document.createElement('p');
-    divText.classList.add('book-card-text');
-    divCard.appendChild(divText);
-    divText.appendChild(this.bookTitle);
-    divText.appendChild(this.bookAuthor);
-    divText.appendChild(this.bookPublished);
-    // Create Add-date section
-    const divDate = document.createElement('div');
-    this.bookAddDate = document.createElement('p');
-    divDate.classList.add('book-card-add-date');
-    divCard.appendChild(divDate);
-    divDate.appendChild(this.bookAddDate);
-    // Create Read checkbox
-    const labelCheckbox = document.createElement('label');
-    labelCheckbox.htmlFor = "idTest";
-    labelCheckbox.textContent = "Read: ";
-    const divCheckbox = document.createElement('div');
-    divCheckbox.classList.add('book-card-checkbox');
-    this.readCheckbox = document.createElement('input');
-    this.readCheckbox.type = "checkbox";
-    this.readCheckbox.name = "name";
-    this.readCheckbox.value = "value";
-    this.readCheckbox.id = "idTest";
-    this.readCheckbox.classList.add('card-checkbox');
-    divText.appendChild(divCheckbox);
-    divCheckbox.appendChild(labelCheckbox);
-    divCheckbox.appendChild(this.readCheckbox);
-    // Create remove bouton section
-    this.deleteBtn = document.createElement('button');
-    this.deleteBtn.classList.add('btn-removeBook');
-    this.deleteBtn.setAttribute("book-id", bookId)
-    divCard.appendChild(this.deleteBtn);
-};
+        if (this.read) {
+            this.readCheckbox.checked = true;
+            this.readCheckbox.offsetParent.classList.toggle("isRead");
+        };
+    }
 
-BookToDom.prototype.populateCard = function(e) {
-    this.bookTitle.textContent = this.title;
-    this.bookAuthor.textContent = `By: ${this.author}`;
-    this.bookPublished.textContent = this.publishDate;
-    this.bookImg.src = this.imgURL;
-    this.bookImg.alt = "Book cover image";
-    this.bookAddDate.textContent = this.addedDate;
-
-    if (this.read) {
-        this.readCheckbox.checked = true;
-        this.readCheckbox.offsetParent.classList.toggle("isRead");
+    removeCard(cardToRemove) {
+        bookContainer.removeChild(cardToRemove);
     };
-
-};
-
-BookToDom.prototype.removeCard = function(cardToRemove) {
-    // Remove book from DOM
-    bookContainer.removeChild(cardToRemove);
-};
-
-
-Book.prototype = Object.create(BookToDom.prototype) // Add the functions createCard, populateCard and removeCard has prototype to Book object
+}
 
 
 function addBookToLibrary(newBook) {
@@ -260,7 +248,6 @@ function addAllBookToDom() {
 
 const demo1 = new Book("Hyperion", "Dan Simmons", "1989", "https://images-na.ssl-images-amazon.com/images/I/91cI7fKu0vL.jpg", true);
 const demo2 = new Book("The Fall of Hyperion", "Dan Simmons", "1990", "https://m.media-amazon.com/images/I/51tqDyv9QcL.jpg", false);
-// const demo3 = new Book("Endymion", "Dan Simmons", "1995", "https://images-na.ssl-images-amazon.com/images/I/91Bg2dr5LvL.jpg", false)
 myLibrary.push(demo1);
 myLibrary.push(demo2);
 addAllBookToDom();
