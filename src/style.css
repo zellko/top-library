@@ -4,11 +4,14 @@
     box-sizing: border-box;
 }
 
+
 @font-face {
-    font-family: "Open Sans";
-    src: url("./OpenSans.ttf") format("ttf");
-    font-style: normal;
+    font-family: 'LemonMilk';
+      src: url('./LEMONMILK-Regular.otf') format('truetype');
+      font-style: normal;
+      font-weight: normal;
 }
+
 
 :root {
     --text-color-dark: #112D4E;
@@ -26,7 +29,7 @@ body {
     grid-template-rows: 1fr min-content;
     min-height: 100vh;
     height: 100%;
-    font-family: "Open Sans", Ubuntu, sans-serif;
+    font-family: 'LemonMilk', serif;
 }
 
 h1 {
@@ -307,16 +310,19 @@ input:not(:placeholder-shown):valid+span {
 }
 
 form span{
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: white;
     background-color: rgb(255, 67, 46);
-    padding: 4px;
+    padding: 0;
 }
-
 
 /*************
 JS CLASS
 /*************/
+
+.error{
+    padding: 4px;
+}
 
 .isRead {
     background-color: lightgreen;

@@ -1,7 +1,8 @@
-import { checkForm } from "./formValidation";
+import showError from "./formValidation";
 import "./style.css";
 import imgBookGen from "./reshot-icon-simple-book-HAZNB8F2TE.svg";
-let myLibrary = []; // Array to store each book object
+
+const myLibrary = []; // Array to store each book object
 let bookId = 0; // Variable to give each book an unique ID
 
 const bookContainer = document.querySelector(".book-container");
@@ -9,11 +10,12 @@ const btnAddBook = document.querySelector(".btn-addBook");
 
 const modal = document.getElementById("myModal"); // Modal which contain the form to add a book
 const btnCloseForm = document.querySelector(".btn-close-modal"); // Button to close the "Add book" form
-const btnForm = document.querySelector(".btn-form"); // Button to submit "Add Book" form
+// const btnForm = document.querySelector(".btn-form"); // Button to submit "Add Book" form
+
+const form = document.querySelector("form");
+const formInput = document.querySelectorAll("form input");
 
 const sortBy = document.querySelector("#sortBy"); // "sort By" selector, allow to sort book by Added date, author or title
-
-checkForm();
 
 class Book {
   // class methods
@@ -26,6 +28,7 @@ class Book {
     this.addedDate = "yyyy-mm-dd";
     this.domId = 0;
   }
+
   createCard() {
     // Create Book card
     const divCard = document.createElement("div");
@@ -76,7 +79,7 @@ class Book {
     divCard.appendChild(this.deleteBtn);
   }
 
-  populateCard(e) {
+  populateCard() {
     this.bookTitle.textContent = this.title;
     this.bookAuthor.textContent = `By: ${this.author}`;
     this.bookPublished.textContent = this.publishDate;
@@ -110,19 +113,22 @@ function addBookToLibrary(newBook) {
   newBook.createCard(); // Create the book card in the DOM
   newBook.populateCard(); // Populate the book card
 
-  ++bookId; // Each time a book is created, we increment this variable, to give each book an unique ID.
+  ++bookId; // Each time a book is created...
+  // ...we increment this variable, to give each book an unique ID.
 }
 
-/***********************************
+/** *********************************
 Book sorting function
-/***********************************/
-function sortBook(e) {
+/********************************** */
+function sortBook() {
   // This function sort the book in the DOM
   // Book can by sorted my Added date, Author or Title
 
   let domOrderCount = 0;
   const sortByValue = document.querySelector("#sortBy");
-  const sortedLibrary = [...myLibrary]; //Create a copy of the myLibrary array, this copy will be sorted
+
+  // Create a copy of the myLibrary array, this copy will be sorted
+  const sortedLibrary = [...myLibrary];
 
   if (sortByValue.value === "title") {
     sortedLibrary.sort((a, b) => {
@@ -143,20 +149,21 @@ function sortBook(e) {
   }
 
   for (const book of sortedLibrary) {
-    if (book === null) continue; // If it's "null", it means it's a book that has been deleted. So we skip it.
-
-    const bookCard = document.querySelector(`[book-id="${book.domId}"]`); // Get the DOM Card element...
-    bookCard.setAttribute("style", `order: ${domOrderCount};`); //...and give it a new "order" attribute
-    ++domOrderCount;
+    // If it's "null", it means it's a book that has been deleted. So we skip it.
+    if (book !== null) {
+      const bookCard = document.querySelector(`[book-id="${book.domId}"]`); // Get the DOM Card element...
+      bookCard.setAttribute("style", `order: ${domOrderCount};`); // ...and give it a new "order" attribute
+      ++domOrderCount;
+    }
   }
 }
 
-/***********************************
+/** *********************************
 Buttons event listener:
 - Check if user click on remove book "x" button
-- Check if user check "read" checkbox 
+- Check if user check "read" checkbox
 - Check if the sortBy selector change
-/***********************************/
+/********************************** */
 
 bookContainer.addEventListener("click", (e) => {
   if (e.type === "change") return;
@@ -184,9 +191,9 @@ bookContainer.addEventListener("change", (e) => {
 
 sortBy.addEventListener("change", sortBook);
 
-/***********************************
-MODAL 
-/***********************************/
+/** *********************************
+MODAL
+/********************************** */
 
 // When the user clicks the button, open the modal
 btnAddBook.addEventListener("click", () => {
@@ -205,25 +212,25 @@ btnCloseForm.addEventListener("click", () => {
 //     }
 // });
 
-/***********************************
+/** *********************************
 FORM:
 - Recovery of form datas
 - Create a new book object from datas
-/***********************************/
+/********************************** */
 
-btnForm.addEventListener("click", (e) => {
-  const form = document.querySelector("form"); // Get the form...
+function addNewBook() {
+  // const form = document.querySelector("form"); // Get the form...
 
   // ...get the datas from the form
   const formData = form.elements;
-  let formTitle = formData[0].value;
-  let formAuthor = formData[1].value;
-  let formPublished = formData[2].value;
+  const formTitle = formData[0].value;
+  const formAuthor = formData[1].value;
+  const formPublished = formData[2].value;
   let formImgURL = formData[3].value;
-  let formIsRead = formData[4].checked;
+  const formIsRead = formData[4].checked;
 
-  if (!formTitle) return; // Title is required to create a new book object, if not provided we do not validate the form.
-  if (!formImgURL) formImgURL = imgBookGen; // If no book image is provided, we use a default book image.
+  // If no book image is provided, we use a default book image.
+  if (!formImgURL) formImgURL = imgBookGen;
 
   const newBookObject = new Book(
     formTitle,
@@ -243,12 +250,42 @@ btnForm.addEventListener("click", (e) => {
   formData[2].value = "";
   formData[3].value = "";
   formData[4].checked = false;
+}
+
+form.addEventListener("submit", (event) => {
+  // Check when "Add Book" form is submited...
+  let isFormValid = true;
+
+  formInput.forEach((input) => {
+    const inputID = input.id;
+
+    let messageID;
+
+    if (inputID === "title") messageID = 0;
+    if (inputID === "author") messageID = 1;
+    if (inputID === "published") messageID = 2;
+
+    // For each required form field, check if it's valid...
+    if (!input.validity.valid) {
+      // If it isn't, we display an appropriate error message
+      showError(input, messageID);
+      isFormValid = false;
+      // Then we prevent the form from being sent by canceling the event
+      event.preventDefault();
+    }
+  });
+
+  if (isFormValid) addNewBook();
+
+  // As we are using webpack and dynamic DOM generation,...
+  // ... we prevent the form from being sent by canceling the event
+  event.preventDefault();
 });
 
-/*************************
+/** ***********************
 DEMO
 - Add two book to the DOM, has demo
- *************************/
+ ************************ */
 function addAllBookToDom() {
   // Function to add all "demo" book to the DOM when the page is loaded
   myLibrary.forEach((book) => {
